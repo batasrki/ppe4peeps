@@ -1,0 +1,22 @@
+{
+  "namespace": "com.ppe4peeps",
+  "type": "record",
+  "name": "Order Picked",
+  "fields": [
+    {
+      "name": "id",
+      "type": "long",
+      "doc": "A unique ID that identifies the received order."
+    },
+    {
+      "name": "timestamp",
+      "type": "long",
+      "doc": "A Unix timestamp of the time the order was picked and ready to be packed."
+    },
+    {
+      "name": "picked",
+      "type": "boolean",
+      "doc": "The flag indicating the order has been picked or not."
+    }
+  ]
+}

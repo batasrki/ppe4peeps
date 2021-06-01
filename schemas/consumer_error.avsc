@@ -1,0 +1,34 @@
+{
+  "namespace": "com.ppe4peeps",
+  "type": "record",
+  "name": "Consumer Error",
+  "fields": [
+    {
+      "name": "timestamp",
+      "type": "long",
+      "doc": "A timestamp of when the consumer error occurred."
+    },
+    {
+      "name": "error",
+      "type": "string",
+      "doc": "Description and error code."
+    },
+    {
+      "name": "event",
+      "type": "record",
+      "doc": "Event on which the error occurred",
+      "fields": [
+        {
+          "name": "id",
+          "type": "long",
+          "doc": "A unique ID that identifies the received order."
+        },
+        {
+          "name": "timestamp",
+          "type": "long",
+          "doc": "A Unix timestamp of the time the order."
+        }
+      ]
+    }
+  ]
+}

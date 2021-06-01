@@ -1,0 +1,22 @@
+{
+  "namespace": "com.ppe4peeps",
+  "type": "record",
+  "name": "Email Notification",
+  "fields": [
+    {
+      "name": "id",
+      "type": "long",
+      "doc": "A unique ID that identifies the received order."
+    },
+    {
+      "name": "timestamp",
+      "type": "long",
+      "doc": "A Unix timestamp of the time the customer is to be notified."
+    },
+    {
+      "name": "notify_customer",
+      "type": "boolean",
+      "doc": "The flag indicating the customer should be notified or not."
+    }
+  ]
+}

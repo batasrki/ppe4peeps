@@ -4,19 +4,48 @@
   "name": "Email Notification",
   "fields": [
     {
-      "name": "id",
-      "type": "long",
-      "doc": "A unique ID that identifies the received order."
+      "name": "metadata",
+      "type": "record",
+      "doc": "Event metadata.",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "doc": "A unique ID representing the event itself."
+        },
+        {
+          "name": "timestamp",
+          "type": "long",
+          "doc": "A Unix timestamp of the event."
+        }
+      ]
     },
     {
-      "name": "timestamp",
-      "type": "long",
-      "doc": "A Unix timestamp of the time the customer is to be notified."
-    },
-    {
-      "name": "notify_customer",
-      "type": "boolean",
-      "doc": "The flag indicating the customer should be notified or not."
+      "name": "email",
+      "type": "record",
+      "doc": "The email notification schema.",
+      "fields": [
+        {
+          "name": "recipient",
+          "type": "string",
+          "doc": "Email notification recepient."
+        },
+        {
+          "name": "from",
+          "type": "string",
+          "doc": "Email address of the sender."
+        },
+        {
+          "name": "subject",
+          "type": "string",
+          "doc": "Email subject."
+        },
+        {
+          "name": "body",
+          "type": "string",
+          "doc": "Email body."
+        }
+      ]
     }
   ]
 }

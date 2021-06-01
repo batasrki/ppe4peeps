@@ -4,29 +4,94 @@
   "name": "Consumer Error",
   "fields": [
     {
-      "name": "timestamp",
-      "type": "long",
-      "doc": "A timestamp of when the consumer error occurred."
-    },
-    {
-      "name": "error",
-      "type": "string",
-      "doc": "Description and error code."
-    },
-    {
-      "name": "event",
+      "name": "metadata",
       "type": "record",
-      "doc": "Event on which the error occurred",
+      "doc": "Event error metadata.",
       "fields": [
         {
           "name": "id",
-          "type": "long",
-          "doc": "A unique ID that identifies the received order."
+          "type": "string",
+          "doc": "A unique ID representing the event itself."
         },
         {
           "name": "timestamp",
           "type": "long",
-          "doc": "A Unix timestamp of the time the order."
+          "doc": "A Unix timestamp of the event."
+        }
+      ]
+    },
+    {
+      "name": "order",
+      "type": "record",
+      "doc": "The order schema.",
+      "fields": [
+        {
+          "name": "id",
+          "type": "long",
+          "doc": "A unique ID of the order."
+        },
+        {
+          "name": "timestamp",
+          "type": "long",
+          "doc": "A Unix timestamp of the time the order was created."
+        },
+        {
+          "name": "products",
+          "type": "record",
+          "doc": "A list of products in the order.",
+          "fields": [
+            {
+              "name": "product_code",
+              "type": "long",
+              "doc": "A unique product code."
+            },
+            {
+              "name": "quantity",
+              "type": "int",
+              "doc": "Quantity of the product ordered."
+            }
+          ]
+        },
+        {
+          "name": "customer",
+          "type": "record",
+          "doc": "Customer information.",
+          "fields": [
+            {
+              "name": "first_name",
+              "type": "string"
+            },
+            {
+              "name": "last_name",
+              "type": "string"
+            },
+            {
+              "name": "email",
+              "type": "string"
+            },
+            {
+              "name": "shipping_address",
+              "type": "record",
+              "fields": [
+                {
+                  "name": "line1",
+                  "type": "string"
+                },
+                {
+                  "name": "city",
+                  "type": "string"
+                },
+                {
+                  "name": "state_province",
+                  "type": "string"
+                },
+                {
+                  "name": "postal_code",
+                  "type": "string"
+                }
+              ]
+            }
+          ]
         }
       ]
     }

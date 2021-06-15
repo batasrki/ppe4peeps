@@ -1,51 +1,56 @@
 {
-  "namespace": "com.ppe4peeps",
   "type": "record",
-  "name": "Email Notification",
+  "name": "EmailNotification",
   "fields": [
     {
       "name": "metadata",
-      "type": "record",
-      "doc": "Event metadata.",
-      "fields": [
-        {
-          "name": "id",
-          "type": "string",
-          "doc": "A unique ID representing the event itself."
-        },
-        {
-          "name": "timestamp",
-          "type": "long",
-          "doc": "A Unix timestamp of the event."
-        }
-      ]
+      "type": {
+        "name": "metadatum",
+        "type": "record",
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "doc": "A unique ID representing the event itself."
+          },
+          {
+            "name": "timestamp",
+            "type": "long",
+            "doc": "A Unix timestamp of the event."
+          }
+        ]
+      },
+      "doc": "Event metadata."
     },
     {
       "name": "email",
-      "type": "record",
-      "doc": "The email notification schema.",
-      "fields": [
-        {
-          "name": "recipient",
-          "type": "string",
-          "doc": "Email notification recepient."
-        },
-        {
-          "name": "from",
-          "type": "string",
-          "doc": "Email address of the sender."
-        },
-        {
-          "name": "subject",
-          "type": "string",
-          "doc": "Email subject."
-        },
-        {
-          "name": "body",
-          "type": "string",
-          "doc": "Email body."
-        }
-      ]
+      "type": {
+        "name": "email_fields",
+        "type": "record",
+        "fields": [
+          {
+            "name": "recipient",
+            "type": "string",
+            "doc": "Email notification recepient."
+          },
+          {
+            "name": "from",
+            "type": "string",
+            "doc": "Email address of the sender."
+          },
+          {
+            "name": "subject",
+            "type": "string",
+            "doc": "Email subject."
+          },
+          {
+            "name": "body",
+            "type": "string",
+            "doc": "Email body."
+          }
+        ]
+      },
+      "doc": "The email notification schema."
     }
   ]
 }

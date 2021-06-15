@@ -1,5 +1,4 @@
 {
-  "namespace": "com.ppe4peeps",
   "type": "record",
   "name": "Order Picked",
   "fields": [

@@ -46,12 +46,12 @@ func NewCustomer() *Customer {
 	return &Customer{}
 }
 
-func (o *Order) BuildFromJson(orderInput string) *Order {
+func (o *Order) BuildFromJson(orderInput []byte) (*Order, error) {
 
-	if err := json.Unmarshal([]byte(orderInput), o); err != nil {
-		panic(err)
+	if err := json.Unmarshal(orderInput, o); err != nil {
+		return nil, err
 	}
-	return o
+	return o, nil
 }
 
 func (o *Order) BuildAvroMessage() *bytes.Buffer {

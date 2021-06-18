@@ -8,7 +8,7 @@ func TestBuildFromJson(t *testing.T) {
 	o := NewOrder()
 	input := staticInput()
 
-	testOrder := o.BuildFromJson(input)
+	testOrder, _ := o.BuildFromJson([]byte(input))
 
 	// basics
 	if testOrder.ID != 6 {
@@ -30,7 +30,7 @@ func TestBuildFromJson(t *testing.T) {
 
 func TestBuildAvroMessage(t *testing.T) {
 	o := NewOrder()
-	testOrder := o.BuildFromJson(staticInput())
+	testOrder, _ := o.BuildFromJson([]byte(staticInput()))
 
 	testAvroMessage := testOrder.BuildAvroMessage()
 

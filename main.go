@@ -1,38 +1,38 @@
 package main
 
 import (
-	"net/http"
+	"os"
+	"os/signal"
+	"syscall"
+	"time"
 
-	"gopkg.in/confluentinc/confluent-kafka-go.v1/kafka"
+	s "github.com/batasrki/ppe4peeps/cmd"
+	"github.com/batasrki/ppe4peeps/config"
+	log "github.com/sirupsen/logrus"
 )
 
+func init() {
+	log.SetFormatter(&log.JSONFormatter{})
+	log.SetOutput(os.Stdout)
+	log.SetLevel(config.LogLevel())
+}
+
 func main() {
-	server := &http.Server{
-		Addr: "0.0.0.0:8082",
+	startTime := time.Now()
+	sigs := make(chan os.Signal, 1)
+	signal.Notify(sigs, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	go func() {
+		sig := <-sigs
+		log.WithField("uptime", time.Since(startTime).String()).
+			WithField("signal", sig.String()).Error("Interrupt signal detected")
+		os.Exit(0)
+	}()
+
+	server := s.Server{
+		Port: config.Port(),
 	}
-	http.HandleFunc("/ping", ping)
-	http.HandleFunc("/produce", produceMessage)
 
-	server.ListenAndServe()
+	log.Fatal(server.ListenAndServe())
 
-}
-
-func produceMessage(w http.ResponseWriter, r *http.Request) {
-	p, err := kafka.NewProducer(&kafka.ConfigMap{"bootstrap.servers": "localhost"})
-	if err != nil {
-		w.Write([]byte(err.Error()))
-	}
-	defer p.Close()
-	topic := "orders-received"
-	p.Produce(&kafka.Message{
-		TopicPartition: kafka.TopicPartition{Topic: &topic, Partition: kafka.PartitionAny},
-		Value:          []byte("This is an order from an HTTP request"),
-	}, nil)
-	p.Flush(1 * 100)
-
-	w.Write([]byte("Order event produced to the topic"))
-}
-
-func ping(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Pong"))
 }

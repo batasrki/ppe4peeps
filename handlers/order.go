@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"bytes"
+	"fmt"
 	"net/http"
 
 	orders "github.com/batasrki/ppe4peeps/builders"
@@ -38,7 +39,50 @@ func prepareMessage(input []byte) (*bytes.Buffer, error) {
 	if _, err := order.BuildFromJson(input); err != nil {
 		return nil, err
 	}
+	log.WithField("order", order).Info("Received a new order")
+
+	if err := validateOrder(order); err != nil {
+		return nil, err
+	}
 	return order.BuildAvroMessage(), nil
+}
+
+func validateOrder(o *orders.Order) error {
+	if len(o.Products) == 0 {
+		return fmt.Errorf("there are no products in this order")
+	}
+
+	for i, pc := range o.Products {
+		if len(pc.ProductCode) == 0 {
+			return fmt.Errorf("the product code for order [%d] is blank", i)
+		}
+
+		if pc.Quantity == 0 {
+			return fmt.Errorf("the quantity for order [%d] must be > 0", i)
+		}
+	}
+
+	if len(o.Customer.Email) == 0 {
+		return fmt.Errorf("the customer must have an e-mail")
+	}
+
+	if len(o.Customer.ShippingAddress.Address) == 0 {
+		return fmt.Errorf("the customer's shipping address street and number is required")
+	}
+
+	if len(o.Customer.ShippingAddress.City) == 0 {
+		return fmt.Errorf("the customer's shipping address city is required")
+	}
+
+	if len(o.Customer.ShippingAddress.PostalCode) == 0 {
+		return fmt.Errorf("the customer's shipping address postal code is required")
+	}
+
+	if len(o.Customer.ShippingAddress.StateProvince) == 0 {
+		return fmt.Errorf("the customer's shipping address state or province is required")
+	}
+
+	return nil
 }
 
 func produceMessage(message bytes.Buffer) error {
